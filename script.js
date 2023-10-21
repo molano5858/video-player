@@ -8,6 +8,7 @@ const volumeBar = document.querySelector(".volume-bar");
 const currentTime = document.querySelector(".time-elapsed");
 const duration = document.querySelector(".time-duration");
 const fullscreenBtn = document.querySelector(".fullscreen");
+// const speedEl=document.getElementById
 
 // Play & Pause ----------------------------------- //
 
@@ -69,8 +70,40 @@ function changeVolume(event) {
   }
   volumeBar.style.width = `${volume * 100}%`;
   video.volume = volume;
-  console.log(volume);
+
+  // changing icon depending volume
+  volumeIcon.className = ""; // because don´t have class yet
+  if (volume > 0.7) {
+    volumeIcon.classList.add("fas", "fa-volume-up");
+  } else if (volume < 0.7 && volume > 0) {
+    volumeIcon.classList.add("fas", "fa-volume-down");
+  } else if (volume === 0) {
+    volumeIcon.classList.add("fas", "fa-volume-off");
+  }
 }
+
+function toggleMute() {
+  let previusVolume = video.volume;
+  if (!video.muted) {
+    video.muted = true;
+    volumeBar.style.width = `0%`;
+    volumeIcon.classList.add("fa-volume-mute");
+    volumeIcon.classList.remove("fa-volume-up");
+    volumeIcon.classList.remove("fa-volume-down");
+    volumeIcon.setAttribute("title", "Unmute");
+  } else {
+    video.muted = false;
+    volumeBar.style.width = `${previusVolume * 100}%`;
+    volumeIcon.setAttribute("title", "Mute");
+    volumeIcon.classList.remove("fa-volume-mute");
+    if (previusVolume > 0.7) {
+      volumeIcon.classList.add("fas", "fa-volume-up");
+    } else if (previusVolume < 0.7 && previusVolume > 0) {
+      volumeIcon.classList.add("fas", "fa-volume-down");
+    }
+  }
+}
+
 // Change Playback Speed -------------------- //
 
 // Fullscreen ------------------------------- //
@@ -82,3 +115,4 @@ video.addEventListener("timeupdate", updateProgress); //
 video.addEventListener("canplay", updateProgress); //
 progressRange.addEventListener("click", setProgress);
 volumeRange.addEventListener("click", changeVolume);
+volumeIcon.addEventListener("click", toggleMute);
