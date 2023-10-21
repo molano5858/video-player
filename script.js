@@ -6,7 +6,7 @@ const volumeIcon = document.getElementById("volumne-icon");
 const volumneRange = document.querySelector(".volumne-range");
 const volumneBar = document.querySelector(".volumne-bar");
 const currentTime = document.querySelector(".time-elapsed");
-const duration = document.querySelector(".duration");
+const duration = document.querySelector(".time-duration");
 const fullscreenBtn = document.querySelector(".fullscreen");
 
 // Play & Pause ----------------------------------- //
@@ -30,14 +30,31 @@ function playPuase() {
 // showing play icon when video is ended
 videoEl.addEventListener("ended", showPlayBtn);
 
+// calculating display time format
+
+function displayTime(time) {
+  let minutes = Math.floor(time / 60);
+  let seconds = Math.floor(time % 60);
+  // currentTime.textContent =
+  //   `${minutes < 10 ? `0${minutes}` : `${minutes}`}:` +
+  //   `${seconds < 10 ? `0${seconds}` : `${seconds}`}`;
+  // duration.textContent = `${seconds < 10 ? `0${seconds}` : `${seconds}`}`;
+  // return `${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`;
+  minutes = minutes < 10 ? `0${minutes}` : minutes;
+  seconds = seconds < 10 ? `0${seconds}` : seconds;
+  // minutes = `${minutes < 10 ? `0${minutes}` : `${minutes}`}:`;
+  // seconds = `${seconds < 10 ? `0${seconds}` : `${seconds}`}`;
+  return `${minutes}:${seconds}`;
+}
+
 // Progress Bar ---------------------------------- //
 function updateProgress() {
-  let currentTime = video.currentTime;
-  let duration = video.duration;
-  let percent = ((currentTime / duration) * 100).toFixed(2);
-  console.log(currentTime, duration);
-  console.log(percent);
+  let currentTimeNum = video.currentTime;
+  let durationNum = video.duration;
+  let percent = ((currentTimeNum / durationNum) * 100).toFixed(2);
   progressBar.style.width = `${percent}%`;
+  currentTime.textContent = `${displayTime(currentTimeNum)} / `;
+  duration.textContent = `${displayTime(durationNum)}`;
 }
 
 // Volume Controls --------------------------- //
