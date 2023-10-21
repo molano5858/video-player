@@ -31,6 +31,14 @@ function playPuase() {
 videoEl.addEventListener("ended", showPlayBtn);
 
 // Progress Bar ---------------------------------- //
+function updateProgress() {
+  let currentTime = video.currentTime;
+  let duration = video.duration;
+  let percent = ((currentTime / duration) * 100).toFixed(2);
+  console.log(currentTime, duration);
+  console.log(percent);
+  progressBar.style.width = `${percent}%`;
+}
 
 // Volume Controls --------------------------- //
 
@@ -40,3 +48,6 @@ videoEl.addEventListener("ended", showPlayBtn);
 
 // EVENT LISTENERS
 playPauseBtn.addEventListener("click", playPuase);
+video.addEventListener("click", playPuase);
+video.addEventListener("timeupdate", updateProgress); //
+video.addEventListener("canplay", updateProgress); //
