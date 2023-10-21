@@ -35,15 +35,8 @@ videoEl.addEventListener("ended", showPlayBtn);
 function displayTime(time) {
   let minutes = Math.floor(time / 60);
   let seconds = Math.floor(time % 60);
-  // currentTime.textContent =
-  //   `${minutes < 10 ? `0${minutes}` : `${minutes}`}:` +
-  //   `${seconds < 10 ? `0${seconds}` : `${seconds}`}`;
-  // duration.textContent = `${seconds < 10 ? `0${seconds}` : `${seconds}`}`;
-  // return `${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`;
   minutes = minutes < 10 ? `0${minutes}` : minutes;
   seconds = seconds < 10 ? `0${seconds}` : seconds;
-  // minutes = `${minutes < 10 ? `0${minutes}` : `${minutes}`}:`;
-  // seconds = `${seconds < 10 ? `0${seconds}` : `${seconds}`}`;
   return `${minutes}:${seconds}`;
 }
 
@@ -57,6 +50,12 @@ function updateProgress() {
   duration.textContent = `${displayTime(durationNum)}`;
 }
 
+function setProgress(event) {
+  let newTime = event.offsetX / progressRange.offsetWidth;
+  progressBar.style.width = `${newTime * 100}%`;
+  video.currentTime = newTime * video.duration;
+}
+
 // Volume Controls --------------------------- //
 
 // Change Playback Speed -------------------- //
@@ -68,3 +67,4 @@ playPauseBtn.addEventListener("click", playPuase);
 video.addEventListener("click", playPuase);
 video.addEventListener("timeupdate", updateProgress); //
 video.addEventListener("canplay", updateProgress); //
+progressRange.addEventListener("click", setProgress);
